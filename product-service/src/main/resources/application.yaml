@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: product-service
+
+  profiles:
+    active: localhost
+
+server:
+  port: 5861
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: localhost
+  cloud:
+    config:
+      uri: http://config-server:5859
+
+eureka:
+  instance:
+    hostname: product-service
+    instance-id: ${spring.application.name}
+  client:
+    service-url:
+      defaultZone: http://discovery-server:8761/eureka/
+
+---
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?useSSL=false
+    username: postgres
+    password: admin
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format-sql: true
