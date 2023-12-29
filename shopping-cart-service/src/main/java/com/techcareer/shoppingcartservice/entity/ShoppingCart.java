@@ -2,6 +2,7 @@ package com.techcareer.shoppingcartservice.entity;
 
 import java.util.Set;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,6 +18,7 @@ public class ShoppingCart {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
+	@Column(unique = true)
 	private String shoppingCartName;
 
 	public long getId() {

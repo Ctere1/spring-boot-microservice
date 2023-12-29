@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,7 @@ import com.techcareer.shoppingcartservice.entity.ShoppingCart;
 import com.techcareer.shoppingcartservice.service.ShoppingCartService;
 
 @RestController
-@RequestMapping("shopping-cart")
+@RequestMapping("api/shopping-cart")
 public class ShoppingCartController {
 
 	@Autowired
@@ -37,8 +38,28 @@ public class ShoppingCartController {
 
 	}
 
-	@GetMapping("{id}")
-	public ResponseEntity<Map<String, String>> totalPrice(@PathVariable("id") Long shoppingCartId) {
+	@GetMapping("/totalprice/{id}")
+	public ResponseEntity<Map<String, String>> getTotalPrice(@PathVariable("id") Long shoppingCartId) {
 		return shoppingCartService.getShoppingCartPrice(shoppingCartId);
+	}
+
+	@GetMapping("{id}")
+	public ResponseEntity<ShoppingCart> getCartById(@PathVariable("id") Long shoppingCartId) {
+		return shoppingCartService.getCartById(shoppingCartId);
+	}
+
+	@GetMapping
+	public ResponseEntity<List<ShoppingCart>> getAllCarts() {
+		return shoppingCartService.getAllCarts();
+	}
+
+	@DeleteMapping("{id}")
+	public ResponseEntity<String> deleteCartById(@PathVariable("id") Long shoppingCartId) {
+		return shoppingCartService.deleteCartById(shoppingCartId);
+	}
+
+	@DeleteMapping("/deleteAll")
+	public ResponseEntity<String> deleteAllCarts() {
+		return shoppingCartService.deleteAllCarts();
 	}
 }

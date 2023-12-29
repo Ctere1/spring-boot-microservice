@@ -61,4 +61,30 @@ public class ShoppingCartService {
 
 		return ResponseEntity.ok().body(response);
 	}
+
+	public ResponseEntity<ShoppingCart> getCartById(Long shoppingCartId) {
+		ShoppingCart shoppingCart = shoppingCartRepository.findById(shoppingCartId)
+				.orElseThrow(() -> new RuntimeException("Shopping cart not found"));
+
+		return ResponseEntity.ok(shoppingCart);
+	}
+
+	public ResponseEntity<List<ShoppingCart>> getAllCarts() {
+		List<ShoppingCart> shoppingCarts = shoppingCartRepository.findAll();
+		return ResponseEntity.ok(shoppingCarts);
+	}
+
+	public ResponseEntity<String> deleteCartById(Long shoppingCartId) {
+		if (shoppingCartRepository.existsById(shoppingCartId)) {
+			shoppingCartRepository.deleteById(shoppingCartId);
+			return ResponseEntity.ok("Shopping Cart deleted successfully");
+		} else {
+			throw new RuntimeException("Shopping Cart not found in DB");
+		}
+	}
+
+	public ResponseEntity<String> deleteAllCarts() {
+		shoppingCartRepository.deleteAll();
+		return ResponseEntity.ok("All Shopping Carts deleted successfully");
+	}
 }

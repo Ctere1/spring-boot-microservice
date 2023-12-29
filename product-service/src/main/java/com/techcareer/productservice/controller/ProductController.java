@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,14 +33,30 @@ public class ProductController {
 		return productService.allProducts();
 	}
 
+	@GetMapping("{id}")
+	public ResponseEntity<Product> getProductById(@PathVariable("id") Long productId) {
+		return productService.getProductById(productId);
+	}
+
 	@PostMapping
-	public ResponseEntity<Product> save(@RequestBody Product product) {
+	public ResponseEntity<Product> createProduct(@RequestBody Product product) {
 		return productService.createProduct(product);
 	}
 
-	@GetMapping("{id}")
-	public ResponseEntity<Product> getById(@PathVariable("id") Long id) {
-		return productService.queryById(id);
+	@PutMapping("{id}")
+	public ResponseEntity<Product> updateProduct(@PathVariable("id") Long productId,
+			@RequestBody Product updatedProduct) {
+		return productService.updateProduct(productId, updatedProduct);
+	}
+
+	@DeleteMapping("{id}")
+	public ResponseEntity<String> deleteById(@PathVariable("id") Long id) {
+		return productService.deleteProduct(id);
+	}
+
+	@DeleteMapping("/deleteAll")
+	public ResponseEntity<String> deleteAll() {
+		return productService.deleteAllProducts();
 	}
 
 }
