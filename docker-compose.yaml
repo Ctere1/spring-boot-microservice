@@ -13,6 +13,7 @@ services:
       - config-server
       - discovery-server
       - product-service
+      - shopping-cart-service
       - postgres
 
   config-server:
@@ -40,6 +41,21 @@ services:
     image: product-service:latest
     ports:
       - "5861:5861"
+    depends_on:
+      - discovery-server
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: admin
+
+  shopping-cart-service:
+    build:
+      context: ./shopping-cart-service
+      dockerfile: Dockerfile
+    image: shopping-cart-service:latest
+    ports:
+      - "5863:5863"
     depends_on:
       - discovery-server
       - postgres
