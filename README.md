@@ -89,6 +89,9 @@ From your command line:
   ![Screenshot](screenshots/swagger_user.png)   
 
 
+> [!TIP]  
+> See postman collection for details       
+
 
 ## 💽Database Entity–relationship
 - Product Table        
