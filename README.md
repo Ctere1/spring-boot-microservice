@@ -17,7 +17,7 @@
   <a href="#ℹ%EF%B8%8F-introduction">Introduction</a> •
   <a href="#installation-guide">Installation Guide</a> •
   <a href="#api">API Reference</a> •
-  <a href="#Database-Entity–relationship">Database ER</a> •
+  <a href="#database-entityrelationship">Database ER</a> •
   <a href="#license">License</a> •
   <a href="#contributors">Contributors</a> 
 </p>
