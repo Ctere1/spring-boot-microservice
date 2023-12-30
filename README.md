@@ -17,6 +17,7 @@
   <a href="#ℹ%EF%B8%8F-introduction">Introduction</a> •
   <a href="#installation-guide">Installation Guide</a> •
   <a href="#api">API Reference</a> •
+  <a href="#Database-Entity–relationship">Database ER</a> •
   <a href="#license">License</a> •
   <a href="#contributors">Contributors</a> 
 </p>
@@ -30,7 +31,7 @@
 </div>
 
 ## ℹ️ Introduction
-- This is a CRUD API project in microservice architecture, using Spring Boot, Hibernate and PostgreSQL. 
+- This is a CRUD API project in [microservice architecture](https://www.atlassian.com/microservices/microservices-architecture), using Spring Boot, Hibernate and PostgreSQL. 
 - Project started with [spring initializr](https://start.spring.io/).
 - The project:
     - uses Maven as a build tool.
@@ -87,6 +88,15 @@ From your command line:
   ![Screenshot](screenshots/swagger_product.png)   
   ![Screenshot](screenshots/swagger_user.png)   
 
+
+
+## 💽Database Entity–relationship
+- Product Table        
+    ![Screenshot](screenshots/cart_er.png)   
+- Cart Table       
+    ![Screenshot](screenshots/product_er.png)   
+- User Table          
+    ![Screenshot](screenshots/user_er.png)     
 
 ## ©License
 ![GitHub](https://img.shields.io/github/license/Ctere1/spring-boot-microservice?style=flat-square)
