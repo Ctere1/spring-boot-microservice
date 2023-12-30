@@ -79,7 +79,7 @@ public class ShoppingCartService {
 				.getProducts().stream().map(product -> restTemplate
 						.getForObject("http://PRODUCT-SERVICE/api/product/" + product.getId(), HashMap.class))
 				.mapToInt(productResponse -> (int) productResponse.get("price")).sum();
-		response.put("Total Price", Double.toString(totalPrice));
+		response.put("total_price", Double.toString(totalPrice));
 
 		return ResponseEntity.ok().body(response);
 	}
