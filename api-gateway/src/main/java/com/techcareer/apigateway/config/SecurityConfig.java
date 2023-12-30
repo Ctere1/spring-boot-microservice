@@ -20,8 +20,11 @@ public class SecurityConfig {
 		serverHttpSecurity.csrf(csrf -> csrf.disable()
 				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 				.authorizeExchange(
-						exchange -> exchange.pathMatchers("/eureka/**").permitAll().pathMatchers("/api/user/**")
-								.permitAll().anyExchange().authenticated())
+						exchange -> exchange.pathMatchers("/eureka/**").permitAll()
+								.pathMatchers("/swagger-ui/**").permitAll()
+								.pathMatchers("/v3/api-docs/**").permitAll()
+								.pathMatchers("/api/user/**").permitAll()
+								.anyExchange().authenticated())
 				.oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults())));
 		return serverHttpSecurity.build();
 	}
@@ -29,11 +32,11 @@ public class SecurityConfig {
 	private CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.applyPermitDefaultValues();
-		
+
 		configuration.addAllowedMethod(HttpMethod.GET);
-        configuration.addAllowedMethod(HttpMethod.POST);
-        configuration.addAllowedMethod(HttpMethod.DELETE);
-        configuration.addAllowedMethod(HttpMethod.PUT);
+		configuration.addAllowedMethod(HttpMethod.POST);
+		configuration.addAllowedMethod(HttpMethod.DELETE);
+		configuration.addAllowedMethod(HttpMethod.PUT);
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
