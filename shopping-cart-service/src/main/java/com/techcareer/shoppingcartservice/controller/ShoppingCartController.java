@@ -38,6 +38,12 @@ public class ShoppingCartController {
 
 	}
 
+	@DeleteMapping("/{id}/products/{productId}")
+	public ResponseEntity<ShoppingCart> removeProduct(@PathVariable("id") Long shoppingCartId,
+			@PathVariable("productId") Long productId) {
+		return shoppingCartService.removeProduct(shoppingCartId, productId);
+	}
+
 	@GetMapping("/totalprice/{id}")
 	public ResponseEntity<Map<String, String>> getTotalPrice(@PathVariable("id") Long shoppingCartId) {
 		return shoppingCartService.getShoppingCartPrice(shoppingCartId);
@@ -46,6 +52,11 @@ public class ShoppingCartController {
 	@GetMapping("{id}")
 	public ResponseEntity<ShoppingCart> getCartById(@PathVariable("id") Long shoppingCartId) {
 		return shoppingCartService.getCartById(shoppingCartId);
+	}
+
+	@GetMapping("/by-name/{name}")
+	public ResponseEntity<ShoppingCart> getCartByShoppingCartName(@PathVariable("name") String shoppingCartName) {
+		return shoppingCartService.getCartByShoppingCartName(shoppingCartName);
 	}
 
 	@GetMapping

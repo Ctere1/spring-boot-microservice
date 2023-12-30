@@ -42,7 +42,29 @@ public class ShoppingCartService {
 		products.forEach(product -> productRepository.saveAndFlush(product));
 		Set<Product> newProducts = new HashSet<>(products);
 
-		shoppingCart.setProducts(newProducts);
+		Set<Product> existingProducts = shoppingCart.getProducts();
+		if (existingProducts == null) {
+			existingProducts = new HashSet<>();
+		}
+		existingProducts.addAll(newProducts);
+
+		shoppingCart.setProducts(existingProducts);
+
+		return ResponseEntity.ok().body(shoppingCartRepository.save(shoppingCart));
+	}
+
+	public ResponseEntity<ShoppingCart> removeProduct(Long shoppingCartId, Long productId) {
+		ShoppingCart shoppingCart = shoppingCartRepository.findById(shoppingCartId)
+				.orElseThrow(() -> new RuntimeException("Shopping cart not found"));
+
+		Set<Product> existingProducts = shoppingCart.getProducts();
+		if (existingProducts == null) {
+			return ResponseEntity.ok().body(shoppingCart);
+		}
+
+		existingProducts.removeIf(product -> product.getId() == (productId));
+
+		shoppingCart.setProducts(existingProducts);
 
 		return ResponseEntity.ok().body(shoppingCartRepository.save(shoppingCart));
 	}
@@ -60,6 +82,13 @@ public class ShoppingCartService {
 		response.put("Total Price", Double.toString(totalPrice));
 
 		return ResponseEntity.ok().body(response);
+	}
+
+	public ResponseEntity<ShoppingCart> getCartByShoppingCartName(String shoppingCartName) {
+		ShoppingCart shoppingCart = shoppingCartRepository.findByShoppingCartName(shoppingCartName)
+				.orElseThrow(() -> new RuntimeException("Shopping cart not found"));
+
+		return ResponseEntity.ok(shoppingCart);
 	}
 
 	public ResponseEntity<ShoppingCart> getCartById(Long shoppingCartId) {

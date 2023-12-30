@@ -101,6 +101,11 @@ public class UserController {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: User not found!"));
 		}
 
+		PasswordEncoder encoder = new BCryptPasswordEncoder();
+		if (!encoder.matches(loginRequest.getPassword(), user.getPassword())) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Error: User credentials are not valid"));
+		}
+
 		HttpClient httpClient = HttpClients.createDefault();
 		HttpPost httpPost = new HttpPost(jwtIssuerUri);
 
