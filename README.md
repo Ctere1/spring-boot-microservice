@@ -89,6 +89,32 @@ From your command line:
   ![Screenshot](screenshots/swagger_user.png)   
 
 
+### **User Endpoints**
+
+- You need to get access before testing the API, first step do post request to `signup` enpoint. Below is a sample response of the user endpoint.   
+
+
+| HTTP Verb   | Endpoint                    | Description                         | Parameters      | Body (JSON)                             |
+| :---------- | :-----------------------    |:----------------------------------  | :-------------  | :-------------------------------------  | 
+| `POST`      | `/api/user/signup`          |  Creates new user for login         | -               | `username`, `email`, `password`         |
+| `POST`      | `/api/user/signin`          |  Returns the user and accessToken   | -               | `username`, `password`                  |
+
+
+### **User Endpoint Data Example**
+
+> ![GET](https://img.shields.io/badge/-POST-red)    
+> http://localhost:5860/api/user/signin | JSON Body: {"username": "cemil","password": "123456"}
+
+```json
+{
+  "id": 2,
+  "username": "cemil",
+  "email": "test@email.com",
+  "tokenType": "Bearer",
+  "accessToken": "*********************"
+}
+```
+
 > [!TIP]  
 > See postman collection for details       
 
