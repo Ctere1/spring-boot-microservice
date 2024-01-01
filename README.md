@@ -39,6 +39,9 @@
     - uses Hibernate as an ORM tool.
     - uses Spring Security, [Keycloak](https://www.keycloak.org/) and JWT Bearer for authentication.
 
+- Project's diagram:
+![Screenshot](screenshots/microservice_diagram.png) 
+
 > [!TIP]    
 > For client side, please refer to following project: [Spring Boot Microservice React](https://github.com/Ctere1/spring-boot-microservice-react) 
 
