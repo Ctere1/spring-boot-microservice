@@ -3,10 +3,10 @@ package com.techcareer.userservice.payload.request;
 import jakarta.validation.constraints.NotBlank;
 
 public class LoginRequest {
-	@NotBlank
+	@NotBlank(message = "Invalid Username: Empty username")
 	private String username;
 
-	@NotBlank
+	@NotBlank(message = "Invalid Password: Empty password")
 	private String password;
 
 	public String getUsername() {

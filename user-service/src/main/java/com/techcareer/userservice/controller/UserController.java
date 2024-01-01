@@ -101,19 +101,19 @@ public class UserController {
 	@PostMapping("/signin")
 	@Operation(summary = "Authenticate user", description = "Authenticate user with username and password")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "User authenticated successfully!"),
-			@ApiResponse(responseCode = "400", description = "Error: Username is not found!"),
-			@ApiResponse(responseCode = "400", description = "Error: Password is not correct!") })
+			@ApiResponse(responseCode = "400", description = "Username is not found!"),
+			@ApiResponse(responseCode = "400", description = "Password is not correct!") })
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 		User user;
 		try {
 			user = userRepository.findByUsername(loginRequest.getUsername()).orElseThrow();
 		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(new MessageResponse("Error: User not found!"));
+			return ResponseEntity.badRequest().body(new MessageResponse("User not found!"));
 		}
 
 		PasswordEncoder encoder = new BCryptPasswordEncoder();
 		if (!encoder.matches(loginRequest.getPassword(), user.getPassword())) {
-			return ResponseEntity.badRequest().body(new MessageResponse("Error: User credentials are not valid"));
+			return ResponseEntity.badRequest().body(new MessageResponse("User credentials are not valid"));
 		}
 
 		HttpClient httpClient = HttpClients.createDefault();
@@ -158,15 +158,15 @@ public class UserController {
 	@PostMapping("/signup")
 	@Operation(summary = "Create authenticated users", description = "Create Authenticated user with username, email and password")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "User registered successfully!"),
-			@ApiResponse(responseCode = "400", description = "Error: Username is already taken!"),
-			@ApiResponse(responseCode = "400", description = "Error: Email is already in use!") })
+			@ApiResponse(responseCode = "400", description = "Username is already taken!"),
+			@ApiResponse(responseCode = "400", description = "Email is already in use!") })
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-			return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
+			return ResponseEntity.badRequest().body(new MessageResponse("Username is already taken!"));
 		}
 
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+			return ResponseEntity.badRequest().body(new MessageResponse("Email is already in use!"));
 		}
 
 		PasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -179,26 +179,26 @@ public class UserController {
 
 		if (strRoles == null) {
 			Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+					.orElseThrow(() -> new RuntimeException("Role is not found."));
 			roles.add(userRole);
 		} else {
 			strRoles.forEach(role -> {
 				switch (role) {
 					case "admin":
 						Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+								.orElseThrow(() -> new RuntimeException("Role is not found."));
 						roles.add(adminRole);
 
 						break;
 					case "mod":
 						Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+								.orElseThrow(() -> new RuntimeException("Role is not found."));
 						roles.add(modRole);
 
 						break;
 					default:
 						Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+								.orElseThrow(() -> new RuntimeException("Role is not found."));
 						roles.add(userRole);
 				}
 			});
@@ -214,14 +214,14 @@ public class UserController {
 	@Operation(summary = "Delete user account", description = "Delete user account by ID")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "User account deleted successfully!"),
-			@ApiResponse(responseCode = "400", description = "Error: User not found!"),
+			@ApiResponse(responseCode = "400", description = "User not found!"),
 			@ApiResponse(responseCode = "500", description = "Internal Server Error")
 	})
 	public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
 		try {
 			// Check if the user exists
 			User user = userRepository.findById(userId)
-					.orElseThrow(() -> new EntityNotFoundException("Error: User not found!"));
+					.orElseThrow(() -> new EntityNotFoundException("User not found!"));
 
 			try {
 				// Check user's shopping cart
@@ -250,8 +250,8 @@ public class UserController {
 	@Operation(summary = "Update user account", description = "Update user account information by ID")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "User account updated successfully!"),
-			@ApiResponse(responseCode = "400", description = "Error: User not found!"),
-			@ApiResponse(responseCode = "400", description = "Error: New password is not valid!"),
+			@ApiResponse(responseCode = "400", description = "User not found!"),
+			@ApiResponse(responseCode = "400", description = "New password is not valid!"),
 			@ApiResponse(responseCode = "500", description = "Internal Server Error")
 	})
 	public ResponseEntity<?> updateUser(@PathVariable Long userId,
@@ -259,7 +259,7 @@ public class UserController {
 		try {
 			// Check if the user exists
 			User user = userRepository.findById(userId)
-					.orElseThrow(() -> new EntityNotFoundException("Error: User not found!"));
+					.orElseThrow(() -> new EntityNotFoundException("User not found!"));
 
 			// Update password if provided
 			if (updateUserRequest.getPassword() != null && !updateUserRequest.getPassword().isEmpty()) {
@@ -269,6 +269,9 @@ public class UserController {
 
 			// Update email if provided
 			if (updateUserRequest.getEmail() != null && !updateUserRequest.getEmail().isEmpty()) {
+				if (userRepository.existsByEmail(updateUserRequest.getEmail())) {
+					return ResponseEntity.badRequest().body(new MessageResponse("Email is already in use!"));
+				}
 				user.setEmail(updateUserRequest.getEmail());
 			}
 

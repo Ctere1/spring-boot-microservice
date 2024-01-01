@@ -4,11 +4,11 @@ import jakarta.validation.constraints.*;
 
 public class UpdateUserRequest {
 
-    @Size(min = 6, max = 40)
+    @Size(min = 6, max = 40, message = "Invalid password: Must be of 6 - 40 characters")
     private String password;
 
-    @Size(max = 50)
-    @Email(message = "Invalid email address")
+    @Size(max = 50, message = "Invalid email: Must be max 50 characters")
+    @Email(message = "Invalid email")
     private String email;
 
     // Getters and setters
