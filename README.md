@@ -120,12 +120,11 @@ From your command line:
 
 
 ## 💽Database Entity–relationship
-- Product Table        
-    ![Screenshot](screenshots/cart_er.png)   
-- Cart Table       
-    ![Screenshot](screenshots/product_er.png)   
-- User Table          
-    ![Screenshot](screenshots/user_er.png)     
+
+| Product Table        | Cart Table         | User Table         |            
+| :----------------:   | :----------------: | :----------------: |
+| ![Screenshot](screenshots/cart_er.png)  | ![Screenshot](screenshots/product_er.png) | ![Screenshot](screenshots/user_er.png) | 
+          
 
 ## ©License
 ![GitHub](https://img.shields.io/github/license/Ctere1/spring-boot-microservice?style=flat-square)
