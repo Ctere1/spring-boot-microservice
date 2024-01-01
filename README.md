@@ -39,7 +39,7 @@
     - uses Hibernate as an ORM tool.
     - uses Spring Security, [Keycloak](https://www.keycloak.org/) and JWT Bearer for authentication.
 
-### Project's Diagram
+### **Project's Diagram**
 
 ![Screenshot](screenshots/microservice_diagram.png) 
 
@@ -51,16 +51,16 @@
 - To clone and run this application, you'll need [Git](https://git-scm.com), [Java](https://www.java.com/en/download/help/download_options.html), [Docker](https://www.docker.com/get-started/) and [PostgreSQL](https://www.postgresql.org/download/) (optional) installed on your computer.
 From your command line:
 
-```bash
-# Clone this repository
-$ git clone https://github.com/Ctere1/spring-boot-microservice
-# Go into the repository
-$ cd spring-boot-microservice
-# Install the dependencies
-$ bash service_install.bash
-# Run the app with docker
-$ docker-compose up
-```
+  ```bash
+  # Clone this repository
+  $ git clone https://github.com/Ctere1/spring-boot-microservice
+  # Go into the repository
+  $ cd spring-boot-microservice
+  # Install the dependencies
+  $ bash service_install.bash
+  # Run the app with docker
+  $ docker-compose up
+  ```
    
 > [!TIP]  
 > If you want to make changes for each service-server, you need to run `mvn clean install` for each one. You can use the bash script instead. (`bash service_install.bash`)
