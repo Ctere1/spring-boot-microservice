@@ -5,10 +5,8 @@ import jakarta.validation.constraints.*;
 public class UpdateUserRequest {
 
     @Size(min = 6, max = 40)
-    @NotEmpty(message = "Password cannot be empty")
     private String password;
 
-    @NotBlank
     @Size(max = 50)
     @Email(message = "Invalid email address")
     private String email;
