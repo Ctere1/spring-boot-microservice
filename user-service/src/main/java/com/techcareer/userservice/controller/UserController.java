@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PostLoad;
 import jakarta.persistence.PostPersist;
 import jakarta.validation.Valid;
@@ -22,18 +23,24 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.techcareer.userservice.entity.ERole;
 import com.techcareer.userservice.entity.Role;
+import com.techcareer.userservice.entity.ShoppingCart;
 import com.techcareer.userservice.entity.User;
 import com.techcareer.userservice.payload.request.LoginRequest;
 import com.techcareer.userservice.payload.request.SignupRequest;
+import com.techcareer.userservice.payload.request.UpdateUserRequest;
 import com.techcareer.userservice.payload.response.JwtResponse;
 import com.techcareer.userservice.payload.response.MessageResponse;
 import com.techcareer.userservice.repository.RoleRepository;
@@ -69,6 +76,9 @@ public class UserController {
 
 	@Autowired
 	RoleRepository roleRepository;
+
+	@Autowired
+	RestTemplate restTemplate;
 
 	@PostPersist
 	@PostLoad
@@ -121,7 +131,6 @@ public class UserController {
 			HttpResponse response = httpClient.execute(httpPost);
 
 			// Handle the response
-			int statusCode = response.getStatusLine().getStatusCode();
 			String responseBody = EntityUtils.toString(response.getEntity());
 
 			accessToken = extractAccessToken(responseBody);
@@ -199,6 +208,80 @@ public class UserController {
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+	}
+
+	@DeleteMapping("/delete/{userId}")
+	@Operation(summary = "Delete user account", description = "Delete user account by ID")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "User account deleted successfully!"),
+			@ApiResponse(responseCode = "400", description = "Error: User not found!"),
+			@ApiResponse(responseCode = "500", description = "Internal Server Error")
+	})
+	public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
+		try {
+			// Check if the user exists
+			User user = userRepository.findById(userId)
+					.orElseThrow(() -> new EntityNotFoundException("Error: User not found!"));
+
+			try {
+				// Check user's shopping cart
+				ShoppingCart shoppingCart = restTemplate.getForObject(
+						"http://SHOPPING-CART-SERVICE/api/shopping-cart/by-name/" + user.getUsername(),
+						ShoppingCart.class);
+
+				restTemplate.delete("http://SHOPPING-CART-SERVICE/api/shopping-cart/" + shoppingCart.getId());
+			} catch (Exception e) {
+				// If shopping cart not found, continue with user deletion
+			}
+
+			// Delete the user
+			userRepository.delete(user);
+
+			return ResponseEntity.ok(new MessageResponse("User account deleted successfully!"));
+		} catch (EntityNotFoundException e) {
+			return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.internalServerError().body(new MessageResponse("Internal Server Error"));
+		}
+	}
+
+	@PutMapping("/update/{userId}")
+	@Operation(summary = "Update user account", description = "Update user account information by ID")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "User account updated successfully!"),
+			@ApiResponse(responseCode = "400", description = "Error: User not found!"),
+			@ApiResponse(responseCode = "400", description = "Error: New password is not valid!"),
+			@ApiResponse(responseCode = "500", description = "Internal Server Error")
+	})
+	public ResponseEntity<?> updateUser(@PathVariable Long userId,
+			@Valid @RequestBody UpdateUserRequest updateUserRequest) {
+		try {
+			// Check if the user exists
+			User user = userRepository.findById(userId)
+					.orElseThrow(() -> new EntityNotFoundException("Error: User not found!"));
+
+			// Update password if provided
+			if (updateUserRequest.getPassword() != null && !updateUserRequest.getPassword().isEmpty()) {
+				PasswordEncoder encoder = new BCryptPasswordEncoder();
+				user.setPassword(encoder.encode(updateUserRequest.getPassword()));
+			}
+
+			// Update email if provided
+			if (updateUserRequest.getEmail() != null && !updateUserRequest.getEmail().isEmpty()) {
+				user.setEmail(updateUserRequest.getEmail());
+			}
+
+			// Save the updated user
+			userRepository.save(user);
+
+			return ResponseEntity.ok(new MessageResponse("User account updated successfully!"));
+		} catch (EntityNotFoundException e) {
+			return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.internalServerError().body(new MessageResponse("Internal Server Error"));
+		}
 	}
 
 }

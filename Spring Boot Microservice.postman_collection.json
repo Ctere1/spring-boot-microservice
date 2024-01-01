@@ -343,6 +343,64 @@
 			]
 		},
 		{
+			"name": "User",
+			"item": [
+				{
+					"name": "User Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"testnew2updated@email.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5860/api/user/update/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5860",
+							"path": [
+								"api",
+								"user",
+								"update",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5860/api/user/delete/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5860",
+							"path": [
+								"api",
+								"user",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Signin",
 			"request": {
 				"auth": {
@@ -480,7 +538,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJsUlplaExRM21reGJ4MHAyOTFZaFU2Ym50LUVaWGJvOHdUV1RGd1ZDQTh3In0.eyJleHAiOjE3MDM5MTA5NDgsImlhdCI6MTcwMzkxMDY0OCwianRpIjoiZmM5MmRhZDAtMDk2Ny00ZDM5LWI2NTctMzI4ZGZlMTJjMzI0IiwiaXNzIjoiaHR0cDovL2tleWNsb2FrOjgwODAvcmVhbG1zL2phdmEtbWljcm9zZXJ2aWNlLXJlYWxtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImRmZDU3NDQ3LTQ0ZDctNDU5OS1hMzY0LWFkMDRhNDA3OGNlZCIsInR5cCI6IkJlYXJlciIsImF6cCI6InNwcmluZy1jbG91ZC1jbGllbnQiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsImRlZmF1bHQtcm9sZXMtamF2YS1taWNyb3NlcnZpY2UtcmVhbG0iLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIGVtYWlsIG9mZmxpbmVfYWNjZXNzIHByb2ZpbGUiLCJjbGllbnRIb3N0IjoiMTcyLjI4LjAuNiIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwicHJlZmVycmVkX3VzZXJuYW1lIjoic2VydmljZS1hY2NvdW50LXNwcmluZy1jbG91ZC1jbGllbnQiLCJjbGllbnRBZGRyZXNzIjoiMTcyLjI4LjAuNiIsImNsaWVudF9pZCI6InNwcmluZy1jbG91ZC1jbGllbnQifQ.R8mw2sFToInukWL0w3uS4lQklsY3fuFGp15Vo2mJIvr3bteMd1gsf-CDqVz3DYYrXcTlubV1igtgSjkTQkYfuCcJlUnkldBdQHOV0XIZf6G2MYGoyR6JVfyNR4VZq2yeFmAIfgCGAbEQ8jOSAiAAEVYtx2j-upj89lROu7q-gHYljvnXKNNEq8R8kRyP0xDAg-kf-DZhYaAjfaZudIaY6HuAtIY2p5qNgyI2y48s16LVnbb93iKdKnmYT0DsfRmgJp85fgmNSozy5kQ_S_t48NaOqOqG8UUIICnz9F8mIHR2Dk6FR4FdOMhYcoFJlfRwJvR4HgXZVUJFt1SCFK1oeA",
+				"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJoRXljSWowQTJFcnVXVE43UDcxMExXYWVMZkNBUkI4MldnZmlmRllTdkZ3In0.eyJleHAiOjE3MDQxMjA3NzUsImlhdCI6MTcwNDEyMDQ3NSwianRpIjoiYTdmZThkYTItNTFlZC00MmI2LWE3MWMtYjgxZmY5MTE2NWIxIiwiaXNzIjoiaHR0cDovL2tleWNsb2FrOjgwODAvcmVhbG1zL2phdmEtbWljcm9zZXJ2aWNlLXJlYWxtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImRmZDU3NDQ3LTQ0ZDctNDU5OS1hMzY0LWFkMDRhNDA3OGNlZCIsInR5cCI6IkJlYXJlciIsImF6cCI6InNwcmluZy1jbG91ZC1jbGllbnQiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsImRlZmF1bHQtcm9sZXMtamF2YS1taWNyb3NlcnZpY2UtcmVhbG0iLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIGVtYWlsIG9mZmxpbmVfYWNjZXNzIHByb2ZpbGUiLCJjbGllbnRIb3N0IjoiMTcyLjI5LjAuNiIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwicHJlZmVycmVkX3VzZXJuYW1lIjoic2VydmljZS1hY2NvdW50LXNwcmluZy1jbG91ZC1jbGllbnQiLCJjbGllbnRBZGRyZXNzIjoiMTcyLjI5LjAuNiIsImNsaWVudF9pZCI6InNwcmluZy1jbG91ZC1jbGllbnQifQ.Wt_MHpT1RVaNKPEYHHU4tE-ADHezBvOH3W3_fU8aCLxvpwB9U2S6IqpC7RMrnOLAyJ9V6gPkujGmRlq52D43P1mZNdPPyRtAvlPtvPch9e4r3TvHHJcJhYsDaPcxdO5Dtxx8l2QXNq_0CEG-bsWbgaD9pZw9yQwdL6KdFI8v-TT8g2ksvZrKsSRXiSz3acwRy3dObSwaBDfhHq82aC_jIHIGUtoq4w453iyJ7iWA6GB6FZkElHDF0gKWdy_w5baEZsA9oIBhoenIhvznT8Uf8gmvvwopoe56dUQXEsgBXKsmdnZzcdGqStSoOvFZvGcKrU2pQFOMximHGj6YfDWXxg",
 				"type": "string"
 			}
 		]

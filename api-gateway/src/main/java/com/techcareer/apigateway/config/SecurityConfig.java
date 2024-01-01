@@ -23,7 +23,8 @@ public class SecurityConfig {
 						exchange -> exchange.pathMatchers("/eureka/**").permitAll()
 								.pathMatchers("/swagger-ui/**").permitAll()
 								.pathMatchers("/v3/api-docs/**").permitAll()
-								.pathMatchers("/api/user/**").permitAll()
+								.pathMatchers("/api/user/signin").permitAll()
+								.pathMatchers("/api/user/signup").permitAll()
 								.anyExchange().authenticated())
 				.oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults())));
 		return serverHttpSecurity.build();
